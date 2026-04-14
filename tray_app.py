@@ -123,9 +123,10 @@ def poll_pc_clipboard():
                         b64_str = base64.b64encode(buf.getvalue()).decode("utf-8")
                         
                         ts = int(time.time() * 1000)
+                        # --- 修正後 ---
                         payload = {"type": "image", "text": b64_str, "ts": ts}
                         ref_pc_to_phone.set(payload)
-                        db.reference(f"clips/{TARGET_UID}/pcHistory").push(payload)
+                        # 画像のときは pcHistory への push を行わないようにする
                         
                         last_image_hash = current_hash
                         log(f"PC->PHONE IMAGE sent ts={ts}")
